@@ -19,7 +19,7 @@ def handle_v3_onionreq_plaintext(body):
             subreq_body = req.get('body', '').encode()
         else:
             subreq_body = b''
-            # Android bug workaround: Android Session (at least up to v1.11.12) sends a body on
+            # Android bug workaround: Android Popsn (at least up to v1.11.12) sends a body on
             # GET requests with a 4-character string "null" when it should send no body.
             if 'body' in req and len(req['body']) == 4 and req['body'] == 'null':
                 del req['body']
@@ -109,8 +109,8 @@ def decrypt_onionreq():
     abort(http.BAD_REQUEST)
 
 
-@app.post("/oxen/v3/lsrpc")
-@app.post("/loki/v3/lsrpc")
+@app.post("/sispop/v3/lsrpc")
+@app.post("/sispop2/v3/lsrpc")
 def handle_onion_request():
     """
     Parse an onion request, handle it as a subrequest, then throw away the subrequest headers,
@@ -152,7 +152,7 @@ def handle_onion_request():
     return utils.encode_base64(junk.transformReply(handle_v3_onionreq_plaintext(junk.payload)))
 
 
-@app.post("/oxen/v4/lsrpc")
+@app.post("/sispop/v4/lsrpc")
 def handle_v4_onion_request():
     """
     Handles a decrypted v4 onion request; this injects a subrequest to process it then returns the

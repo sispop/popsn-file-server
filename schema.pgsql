@@ -21,9 +21,9 @@ CREATE TABLE release_versions (
 
 -- Abritrary version values at the (approx) time this was written; this don't really matter as
 -- they'll get updated within a first few seconds of initial startup.
-INSERT INTO release_versions (project, version, updated) VALUES ('oxen-io/session-desktop', 'v1.7.3', '2021-10-14Z');
-INSERT INTO release_versions (project, version, updated) VALUES ('oxen-io/session-android', '1.11.11', '2021-10-14Z');
-INSERT INTO release_versions (project, version, updated) VALUES ('oxen-io/session-ios', '1.11.17', '2021-10-14Z');
+INSERT INTO release_versions (project, version, updated) VALUES ('sispop-site/popsn-desktop', 'v1.7.3', '2021-10-14Z');
+INSERT INTO release_versions (project, version, updated) VALUES ('sispop-site/popsn-android', '1.11.11', '2021-10-14Z');
+INSERT INTO release_versions (project, version, updated) VALUES ('sispop-site/popsn-ios', '1.11.17', '2021-10-14Z');
 
 COMMIT;
 

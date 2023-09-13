@@ -24,7 +24,7 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="popsn")
 def db_conn(request):
     from fileserver import db as db_
 

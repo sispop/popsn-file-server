@@ -1,21 +1,21 @@
 openapi: 3.0.1
 info:
-  title: Session File Server
+  title: Popsn File Server
   description: >
-    API documentation for the Session file server.  This is the API that
-    [Session](https://getsession.org) and related tools use to interface with encrypted, stored
+    API documentation for the Popsn file server.  This is the API that
+    [Popsn](https://getpopsn.org) and related tools use to interface with encrypted, stored
     files that are sent to and retrieved from the file server via onion requests.
   contact:
-    name: The Oxen Project
-    email: team@oxen.io
-    url: https://getsession.org
+    name: The Sispop Project
+    email: team@sispop.site
+    url: https://getpopsn.sispop.site
   license:
     name: GPL v3.0
     url: https://www.gnu.org/licenses/gpl-3.0.en.html
   version: "3.0"
 externalDocs:
-  description: Find out more about the Oxen project
-  url: http://oxen.io
+  description: Find out more about the Sispop project
+  url: http://sispop.site
 paths:
   /file:
     post:
@@ -116,12 +116,12 @@ paths:
           description: The file was not found or has expired.
           content: {}
 
-  /session_version:
+  /popsn_version:
     get:
-      summary: Retrieves the latest Session release version.
+      summary: Retrieves the latest Popsn release version.
       deprecated: True
       description: >
-        Returns the current version of session for one of the three platforms (desktop, ios, or
+        Returns the current version of popsn for one of the three platforms (desktop, ios, or
         android); this is effectively proxying (and caching) the response from the github release
         page.
 
@@ -132,7 +132,7 @@ paths:
         - name: platform
           in: query
           required: true
-          description: The session platform to query.
+          description: The popsn platform to query.
           schema:
             type: string
             format: int32
@@ -150,7 +150,7 @@ paths:
                     someday.
                   result:
                     type: string
-                    description: The Session version.
+                    description: The Popsn version.
                   updated:
                     type: number
                     format: double
@@ -212,7 +212,7 @@ paths:
                       endpoint for retrieval.  Will be a value between 1 and 2^53.
 
 
-                      This endpoint is deprecated for Session clients that would break with a
+                      This endpoint is deprecated for Popsn clients that would break with a
                       non-integer identifier; the more efficient and robust `/file` endpoint should
                       be used instead.
 

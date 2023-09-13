@@ -11,7 +11,7 @@ from fileserver import config
 psql = psycopg.connect(**config.pgsql_connect_opts, autocommit=True)
 
 if len(sys.argv) != 2 or sys.argv[1].startswith('-'):
-    print("Usage: {} /path/to/session-open-group-server".format(sys.argv[0]), file=sys.stderr)
+    print("Usage: {} /path/to/popsn-open-group-server".format(sys.argv[0]), file=sys.stderr)
     sys.exit(1)
 
 filesdir = sys.argv[1] + '/files/main_files'

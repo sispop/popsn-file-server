@@ -4,7 +4,7 @@
 import logging
 
 
-# This sucks: current versions of Session are entirely inflexible as to the data received: they
+# This sucks: current versions of Popsn are entirely inflexible as to the data received: they
 # *must* get back an integer value for the id, and shove the integer into a double which means we
 # can only (perfectly) represent integers from [0, 2^53].
 BACKWARDS_COMPAT_IDS = True
@@ -18,7 +18,7 @@ BACKWARDS_COMPAT_IDS = True
 # with exactly the same number of fixed bits.  Should be empty for a single server file server.
 BACKWARDS_COMPAT_IDS_FIXED_BITS = []
 
-# Maximum file size we will accept, in bytes.  This should generally be the same as Session's value,
+# Maximum file size we will accept, in bytes.  This should generally be the same as Popsn's value,
 # and has to be small enough that it can fit, post-base64 encoding + onion wrapping, into the 10MB
 # size limit of storage server messages.
 MAX_FILE_SIZE = 6_000_000
@@ -34,7 +34,7 @@ FILE_EXPIRY = '3 weeks'
 
 
 # postgresql connect options
-pgsql_connect_opts = {"dbname": "sessionfiles"}
+pgsql_connect_opts = {"dbname": "popsnfiles"}
 
 # The default log level
 log_level = logging.INFO

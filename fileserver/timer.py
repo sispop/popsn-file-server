@@ -9,7 +9,7 @@ WARNING:
 
 Failed to load uwsgidecorators; we probably aren't running under uwsgi.
 
-File cleanup and session version updating will not be enabled!
+File cleanup and popsn version updating will not be enabled!
 """
     )
 

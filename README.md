@@ -1,12 +1,12 @@
-# Session File Server
+# Popsn File Server
 
-This is the Session file server that hosts encrypted avatars and attachments for the Session
+This is the Popsn file server that hosts encrypted avatars and attachments for the Popsn
 network.  It is effectively a "dumb" store of data as it simply stores, retrieves, and expires but
 cannot read the encrypted blobs.
 
-It has one additional feature used by Session which is acting as a cache and server of the current
-version of Session (as posted on GitHub) to allow Session clients to check the version without
-leaking metadata (by making an onion request through the Oxen service node network).
+It has one additional feature used by Popsn which is acting as a cache and server of the current
+version of Popsn (as posted on GitHub) to allow Popsn clients to check the version without
+leaking metadata (by making an onion request through the Sispop service node network).
 
 ## Requires
 
@@ -21,10 +21,10 @@ Debian/Ubuntu).
 - psycopg_pool
 - requests
 - uwsgidecorators
-- oxenmq
+- sispopmq
 - pyonionreq
 
-(The last two are Oxen projects that either need to be installed manually, or via the Oxen deb
+(The last two are Sispop projects that either need to be installed manually, or via the Sispop deb
 repository).
 
 ### WSGI request handler
@@ -51,7 +51,7 @@ Everything is stored in PostgreSQL; no local file storage is used at all.
     You may optionally also install `psycopg_c` for some performance improvements; this likely
     requires first installing libpq-dev for postgresql headers.
 
-2. Build the required oxen Python modules:
+2. Build the required sispop Python modules:
 
        make
 
@@ -65,17 +65,17 @@ Everything is stored in PostgreSQL; no local file storage is used at all.
    sudo apt install postgresql-server postgresql-client  # Install server and client
    sudo su - postgres  # Change to postgres system user
    createuser YOURUSER  # Replace with your username, *NOT* root
-   createdb -O YOURUSER sessionfiles  # Creates an empty database for session files, owned by you
+   createdb -O YOURUSER popsnfiles  # Creates an empty database for popsn files, owned by you
    exit  # Exit the postgres shell, return to your user
 
    # Test that postgresql lets us connect to the database:
-   echo "select 'hello'" | psql sessionfiles
+   echo "select 'hello'" | psql popsnfiles
    # Should should you "ok / ---- / hello"; if it gives an error then something is wrong.
 
-   # Load the database structure (run this from the session-file-server dir):
-   psql -f schema.pgsql sessionfiles
+   # Load the database structure (run this from the popsn-file-server dir):
+   psql -f schema.pgsql popsnfiles
 
-   # The 'sessionfiles' database is now ready to go.
+   # The 'popsnfiles' database is now ready to go.
    ```
 
 4. Copy `fileserver/config.py.sample` to `fileserver/config.py` and edit as needed.  In particular
@@ -92,7 +92,7 @@ Everything is stored in PostgreSQL; no local file storage is used at all.
 
       ```ini
       [uwsgi]
-      chdir = /home/YOURUSER/session-file-server
+      chdir = /home/YOURUSER/Popsn-file-server
       socket = sfs.wsgi
       chmod-socket = 660
       plugins = python3,logfile
@@ -100,7 +100,7 @@ Everything is stored in PostgreSQL; no local file storage is used at all.
       manage-script-name = true
       mount = /=fileserver.web:app
 
-      logger = file:logfile=/home/YOURUSER/session-file-server/sfs.log
+      logger = file:logfile=/home/YOURUSER/popsn-file-server/sfs.log
       ```
 
       You will need to change the `chdir` and `logger` paths to match where you have set up the
@@ -121,11 +121,11 @@ Everything is stored in PostgreSQL; no local file storage is used at all.
 
 7. Set up nginx or apache2 to serve HTTP or HTTPS requests that are handled by the file server.
    - For nginx you want this snippet added to your `/etc/nginx/sites-enabled/SITENAME` file
-     (SITENAME can be `default` if you will only use the web server for the Session file server).:
+     (SITENAME can be `default` if you will only use the web server for the Popsn file server).:
 
      ```nginx
      location / {
-         uwsgi_pass unix:///home/YOURUSER/session-file-server/sfs.wsgi;
+         uwsgi_pass unix:///home/YOURUSER/popsn-file-server/sfs.wsgi;
          include uwsgi_params;
      }
      ```
@@ -133,13 +133,13 @@ Everything is stored in PostgreSQL; no local file storage is used at all.
    - If you prefer to use Apache then you want to use a
 
      ```apache
-     ProxyPass / unix:/home/YOURUSER/session-file-server/sfs.wsgi|uwsgi://uwsgi-session-file-server/
+     ProxyPass / unix:/home/YOURUSER/popsn-file-server/sfs.wsgi|uwsgi://uwsgi-popsn-file-server/
      ```
 
      directive in `<VirtualHost>` section serving the site.
 
 8. If you want to use HTTPS then set it up in nginx or apache and put the above directives in the
-   location for the HTTPS server.  This will work but is *not* required for Session and does not
+   location for the HTTPS server.  This will work but is *not* required for Popsn and does not
    enhance the security because requests are always onion encrypted; the extra layer of HTTPS
    encryption adds nothing (and makes requests marginally slower).
 

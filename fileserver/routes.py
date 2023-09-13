@@ -39,7 +39,7 @@ def generate_file_id(data):
     to fit perfectly).
     """
     return urlsafe_b64encode(
-        blake2b(data, digest_size=33, salt=b"SessionFileSvr\0\0").digest()
+        blake2b(data, digest_size=33, salt=b"PopsnFileSvr\0\0").digest()
     ).decode()
 
 
@@ -170,14 +170,14 @@ def get_file_info(id):
             return error_resp(http.NOT_FOUND)
 
 
-@app.get("/session_version")
-def get_session_version():
+@app.get("/popsn_version")
+def get_popsn_version():
     platform = request.args.get("platform")
 
     if platform not in ("desktop", "android", "ios"):
-        app.logger.warn("Invalid session platform '{}'".format(platform))
+        app.logger.warn("Invalid popsn platform '{}'".format(platform))
         return error_resp(http.NOT_FOUND)
-    project = "oxen-io/session-" + platform
+    project = "sispop-site/popsn-" + platform
 
     with db.psql.cursor() as cur:
         cur.execute(

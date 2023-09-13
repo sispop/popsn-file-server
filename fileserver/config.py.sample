@@ -12,7 +12,7 @@ from .config_base import *
 # This one is pretty much always needed.  For a local DB you'll need at least the dbname; for a
 # remote DB you'll need more.  See psycopg documentation for details.
 pgsql_connect_opts = {
-    "dbname": "sessionfiles",
+    "dbname": "popsnfiles",
 }
 
 # Log level:

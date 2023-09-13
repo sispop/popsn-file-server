@@ -82,7 +82,7 @@ def build_payload(inner_json, inner_body=None, *, v, enc_type, outer_json_extra=
         "host": "localhost",
         "port": 80,
         "protocol": "http",
-        "target": f"/oxen/v{v}/lsrpc",
+        "target": f"/sispop/v{v}/lsrpc",
         "ephemeral_key": A.encode().hex(),
         "enc_type": enc_type,
         **outer_json_extra,
@@ -135,7 +135,7 @@ def decrypt_reply(data, *, v, enc_type):
     return json_, body
 
 
-def update_session_desktop_version():
+def update_popsn_desktop_version():
     """
     Fileserver errors if the db update version is more than 24 hours old, so update it to a fake
     version for testing.
@@ -144,15 +144,15 @@ def update_session_desktop_version():
     with db.psql.cursor() as cur:
         cur.execute(
             "UPDATE release_versions SET version = %s, updated = NOW() WHERE project = %s",
-            ('v1.2.3', 'oxen-io/session-desktop'),
+            ('v1.2.3', 'sispop-site/popsn-desktop'),
         )
 
 
 def test_v3(client):
-    update_session_desktop_version()
+    update_popsn_desktop_version()
 
     # Construct an onion request for /room/test-room
-    req = {'method': 'GET', 'endpoint': 'session_version?platform=desktop'}
+    req = {'method': 'GET', 'endpoint': 'popsn_version?platform=desktop'}
     data = build_payload(req, v=3, enc_type="xchacha20")
 
     r = client.post("/loki/v3/lsrpc", data=data)
@@ -166,12 +166,12 @@ def test_v3(client):
 
 
 def test_v4(client):
-    update_session_desktop_version()
+    update_popsn_desktop_version()
 
-    req = {'method': 'GET', 'endpoint': '/session_version?platform=desktop'}
+    req = {'method': 'GET', 'endpoint': '/popsn_version?platform=desktop'}
     data = build_payload(req, v=4, enc_type="xchacha20")
 
-    r = client.post("/oxen/v4/lsrpc", data=data)
+    r = client.post("/sispop/v4/lsrpc", data=data)
 
     assert r.status_code == 200
 
@@ -204,7 +204,7 @@ def test_v4_post_body(client):
 
     data = build_payload(req, content, v=4, enc_type="xchacha20")
 
-    r = client.post("/oxen/v4/lsrpc", data=data)
+    r = client.post("/sispop/v4/lsrpc", data=data)
 
     assert r.status_code == 200
 
@@ -219,7 +219,7 @@ def test_v4_post_body(client):
     req['headers'] = {'content-type': 'application/json'}
 
     data = build_payload(req, content, v=4, enc_type="xchacha20")
-    r = client.post("/oxen/v4/lsrpc", data=data)
+    r = client.post("/sispop/v4/lsrpc", data=data)
 
     assert r.status_code == 200
 
@@ -231,7 +231,7 @@ def test_v4_post_body(client):
     # Now try with json, but with content-type set to something else (this should avoid the json
     req['headers'] = {'content-type': 'x-omg/all-your-base'}
     data = build_payload(req, content, v=4, enc_type="xchacha20")
-    r = client.post("/oxen/v4/lsrpc", data=data)
+    r = client.post("/sispop/v4/lsrpc", data=data)
 
     assert r.status_code == 200
 

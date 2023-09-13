@@ -1,4 +1,4 @@
-local docker_base = 'registry.oxen.rocks/lokinet-ci-';
+local docker_base = 'registry.sispop.site/sispopnet-ci-';
 local apt_get_quiet = 'apt-get -o=Dpkg::Use-Pty=0 -q';
 
 local default_deps = [
@@ -10,7 +10,7 @@ local default_deps = [
   'python3-nacl',
   'python3-requests',
   'python3-pyonionreq',
-  'python3-oxenmq',
+  'python3-sispopmq',
 ];
 
 // Regular build on a debian-like system:
